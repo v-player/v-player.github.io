@@ -1,6 +1,6 @@
 {
   "name": "V-Player",
-  "version": "v1",
+  "version": "1.0.0",
   "parameter": "content:https://v-player.github.io/msx/start.json",
   "pages": [
     {
