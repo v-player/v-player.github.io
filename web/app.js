@@ -4061,19 +4061,19 @@
     function parseVTT(data, ms) {
       var useMs = ms ? true : false;
       data = data.replace(/WEBVTT/gi, '').trim();
-      data = data.replace(/\r/g, '');
-      data = data.replace(/(\d+):(\d+)\.(\d+) --> (\d+):(\d+)\.(\d+)/g, '00:$1:$2.$3 --> 00:$4:$5.$6');
-      var regex = /(\d{2}:\d{2}:\d{2}\.\d{3}) --> (\d{2}:\d{2}:\d{2}\.\d{3})/g;
+      data = data.replace(/\r/g, ''); //data = data.replace(/(\d+):(\d+)\.(\d+) --> (\d+):(\d+)\.(\d+)/g, '00:$1:$2.$3 --> 00:$4:$5.$6')
+
+      var regex = /(\d+)?\n?(\d{2}:\d{2}:\d{2}[,.]\d{3}) --> (\d{2}:\d{2}:\d{2}[,.]\d{3}).*\n/g;
       data = data.split(regex);
       data.shift();
       var items = [];
 
-      for (var i = 0; i < data.length; i += 3) {
+      for (var i = 0; i < data.length; i += 4) {
         items.push({
-          id: data[i].trim(),
-          startTime: useMs ? time$1(data[i + 0].trim()) : data[i + 0].trim(),
-          endTime: useMs ? time$1(data[i + 1].trim()) : data[i + 1].trim(),
-          text: data[i + 2].trim()
+          id: data[i] ? +data[i].trim() : items.length + 1,
+          startTime: useMs ? time$1(data[i + 1].trim()) : data[i + 0].trim(),
+          endTime: useMs ? time$1(data[i + 2].trim()) : data[i + 1].trim(),
+          text: data[i + 3].trim()
         });
       }
 
